@@ -1,0 +1,12 @@
+/* Generated from tokens.json by scripts/generate-theme.mjs. */
+@theme static {
+  --font-handwriting: "Patrick Hand", cursive;
+  --color-cover: #762B3B;
+  --color-spine: #54202C;
+  --color-paper: #FBF5E8;
+  --color-paper-edge: #E9DFCD;
+  --color-canvas: #E8E4DE;
+  --color-ink: #2F2926;
+  --color-focus: #304F6A;
+  --shadow-notebook: 0 24px 56px rgba(47, 41, 38, 0.16), 0 5px 14px rgba(47, 41, 38, 0.10);
+}

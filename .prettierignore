@@ -1,0 +1,11 @@
+node_modules
+dist
+.cache
+coverage
+playwright-report
+test-results
+package-lock.json
+.agents
+resource/Great_Books_*
+AGENTS.md
+skills-lock.json
