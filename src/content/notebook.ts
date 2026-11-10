@@ -1,0 +1,25 @@
+export const notebook = {
+  title: 'My Literary Journey',
+  subtitle: 'A Great Books Digital Portfolio',
+  insideTitle: 'Notes from my Great Books journey',
+  insideDescription:
+    'A collection of stories, reflections, and ideas I want to carry beyond the classroom.',
+  writingStatus: 'draft-from-discussion',
+  controls: {
+    open: 'Open my notebook',
+    close: 'Close notebook',
+    previous: 'Previous page',
+    next: 'Next page',
+    pagePosition: 'Page {current} of {total}',
+    readingList: 'Back to the reading list',
+    nextWork: 'Next work: {title}',
+    previousWork: 'Previous work: {title}',
+    sources: 'Sources and credits',
+    fullReading: 'Read without page turns',
+    returnToNotebook: 'Back to notebook',
+    missingDestination: 'This page is not in my notebook.',
+    recovery: 'Open the reading list',
+    preparing: 'Opening the notebook…',
+    reflow: 'Arranging the pages…',
+  },
+} as const;

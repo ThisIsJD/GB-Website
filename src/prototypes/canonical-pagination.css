@@ -1,0 +1,77 @@
+.canonical-pagination {
+  max-width: 1040px;
+  margin: auto;
+  padding: 24px;
+  font: 20px/1.7 var(--font-handwriting);
+}
+.canonical-pagination > h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 0 0 16px;
+  font-weight: 400;
+}
+.canonical-pagination > :is(p, a, details) {
+  margin-bottom: 16px;
+}
+.canonical-options {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0;
+}
+.canonical-options label:first-child {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.canonical-options select {
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: 1px solid var(--color-cover);
+  padding: 8px;
+}
+.canonical-options label:has(input) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.canonical-options input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-cover);
+  flex: none;
+}
+.canonical-pagination > a,
+.canonical-original > summary {
+  display: inline-block;
+  min-height: 44px;
+  padding-block: 4px;
+  cursor: pointer;
+}
+.canonical-pagination :focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+.canonical-original article {
+  margin-top: 16px;
+}
+.canonical-original img {
+  max-width: 100%;
+  height: auto;
+}
+.canonical-leaves {
+  display: grid;
+  gap: 24px 0;
+  justify-content: center;
+}
+.canonical-leaf {
+  box-shadow: var(--shadow-notebook);
+}
+.canonical-leaf > .page-leaf {
+  width: 100%;
+  height: 100%;
+}

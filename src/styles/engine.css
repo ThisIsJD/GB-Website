@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+@import './theme.css';
+@import './leaf.css';
+
+:root {
+  font-family: var(--font-handwriting);
+  color: var(--color-ink);
+  font-synthesis: none;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  overflow: hidden;
+}
+* {
+  box-sizing: border-box;
+}
+.engine-document {
+  height: 100%;
+}
+.reader-crease {
+  position: absolute;
+  z-index: 5;
+  inset: 0 auto 0 50%;
+  width: 40px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(47 41 38 / 6%) 28%,
+    rgb(47 41 38 / 19%) 49%,
+    rgb(255 253 247 / 48%) 54%,
+    transparent
+  );
+  pointer-events: none;
+}
+.paper-dragging,
+.paper-dragging * {
+  cursor: grabbing !important;
+  user-select: none !important;
+}
+.stf__parent {
+  touch-action: pan-y;
+}
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
+html,
+body,
+#engine-root {
+  background: transparent;
+}
+
+.bookmark-peek .page-leaf.--right {
+  mask-image:
+    linear-gradient(
+      to bottom,
+      black var(--peek-top),
+      transparent var(--peek-top),
+      transparent var(--peek-bottom),
+      black var(--peek-bottom)
+    ),
+    linear-gradient(
+      to right,
+      black calc(100% - 32px),
+      rgba(0, 0, 0, 0.15) calc(100% - 32px)
+    );
+  mask-composite: add;
+}

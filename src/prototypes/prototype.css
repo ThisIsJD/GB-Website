@@ -1,0 +1,237 @@
+.book-prototype {
+  max-width: 1200px;
+  margin: auto;
+  padding: 32px 24px;
+  font: 20px/1.7 var(--font-handwriting);
+}
+.book-prototype > h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 0 0 24px;
+  font-weight: 400;
+}
+.book-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px 0;
+}
+.book-toolbar a {
+  padding: 8px 0;
+  min-height: 44px;
+}
+.engine-surface {
+  width: 100%;
+}
+.book-window {
+  max-width: 100%;
+  margin: auto;
+}
+.notebook-frame {
+  display: block;
+  width: 100%;
+  height: 620px;
+  border: 0;
+  box-shadow: var(--shadow-notebook);
+}
+.book-position {
+  text-align: center;
+  min-height: 34px;
+}
+.reading-options {
+  max-width: 600px;
+  margin: 24px auto;
+}
+.reading-options summary {
+  cursor: pointer;
+  padding: 8px 0;
+}
+.reading-options label {
+  display: grid;
+  gap: 8px;
+}
+.reading-options select {
+  padding: 8px;
+  border: 1px solid var(--color-cover);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  max-width: 100%;
+}
+.reading-options button {
+  margin: 12px 12px 0 0;
+}
+.full-reading {
+  margin: auto;
+}
+@media (max-width: 480px) {
+  .book-prototype {
+    padding: 24px;
+  }
+}
+
+.book-assembly {
+  display: grid;
+  grid-template-areas: 'tabs' 'pages';
+  row-gap: 16px;
+  max-width: 100%;
+  margin: auto;
+}
+.book-assembly[data-wide='true'] {
+  grid-template-areas: 'pages tabs';
+  row-gap: 0;
+}
+.book-window {
+  grid-area: pages;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+}
+.bookmark-rail {
+  grid-area: tabs;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-content: start;
+}
+.bookmark-button {
+  position: relative;
+  flex: 1 1 130px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 16px;
+  border: 1px solid var(--tab-accent);
+  border-radius: 3px 8px 8px 3px;
+  background: var(--tab-fill);
+  color: var(--color-ink);
+  font: inherit;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+}
+.bookmark-button[aria-current='page'] > span:first-child {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.bookmark-current {
+  position: absolute;
+  right: 5px;
+  top: 6px;
+}
+.bookmark-button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+.book-assembly[data-wide='true'] .bookmark-rail {
+  width: 176px;
+  margin-left: -32px;
+  padding-top: 36px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 12px;
+}
+.book-assembly[data-wide='true'] .bookmark-button {
+  flex: none;
+  width: 176px;
+  min-height: 64px;
+}
+.book-assembly[data-wide='true']
+  .bookmark-rail[data-reveal='slide']
+  .bookmark-button {
+  transition: transform 200ms ease;
+}
+.book-assembly[data-wide='true']
+  .bookmark-rail[data-reveal='slide']
+  .bookmark-button:is(:hover, :focus-visible) {
+  transform: translateX(20px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bookmark-button {
+    transition: none !important;
+  }
+}
+
+.analysis-options,
+.analysis-controls {
+  max-width: 700px;
+  margin: 24px auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.analysis-options {
+  padding: 16px;
+  border: 1px solid var(--color-rule);
+}
+.analysis-options legend {
+  padding: 0 8px;
+}
+.analysis-options label,
+.analysis-controls label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+.analysis-options select,
+.analysis-controls select {
+  min-height: 44px;
+  max-width: 100%;
+  padding: 8px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-cover);
+  color: var(--color-ink);
+}
+.analysis-options input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-cover);
+}
+.analysis-hint {
+  max-width: 68ch;
+  margin: 24px auto;
+}
+.analysis-controls {
+  justify-content: center;
+}
+.analysis-controls .book-toolbar {
+  width: 100%;
+  margin: 0;
+}
+.measured-window {
+  margin: 24px auto;
+}
+
+.analysis-options {
+  min-inline-size: 0;
+  width: 100%;
+}
+.analysis-options label:first-of-type {
+  display: grid;
+  width: 100%;
+}
+.analysis-options label:not(:first-of-type) {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+}
+.analysis-options input {
+  margin-top: 6px;
+}
+.analysis-prototype[data-large='true'] .full-reading .reading-content {
+  font-size: 24px;
+  line-height: 40px;
+}
+
+.analysis-options label:first-of-type {
+  grid-template-columns: minmax(0, 1fr);
+}
+.analysis-options select {
+  width: 100%;
+  min-width: 0;
+}

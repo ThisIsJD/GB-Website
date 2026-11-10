@@ -1,0 +1,45 @@
+# P4.1 canonical content blocks
+
+Task date: 8 November 2026. Branch: `work/p4-content`. Worktree: `.worktrees/p4-content`. Implementation: **uncommitted**, base `0fd0a87` (approved P2 implementation `c3bfbed` plus its commit record). Approved P1 inputs come from `e4f79eb`, copied without rewriting the prose. No merge into main is claimed.
+
+## Scope and ownership
+
+Implement P4.1 only, then stop for JD's review. Own `src/lib/content/**`, new `src/components/content/ContentBlocks.tsx`, the content renderer's embedded-link behavior, canonical metadata additions, named canonical-content unit tests, and this worktree's plan/decisions/handoff. Retain P1 metadata and Markdown as inputs. P3 owns shell, routes, controls, and global styles in its own worktree. No dependency, shared configuration, token, engine, or P3 file changes are authorized by this brief.
+
+P4.2 may extend the accepted P2 measurement/splitting code after this checkpoint. P4.3 needs the P3 shell and must reconcile the two branches before integrated acceptance. P4.4 owns live full-reading/print/failure recovery. The entire phase stays uncommitted until implemented and approved by JD. Keep this worktree until that approved commit exists, then remove it safely.
+
+## Content contract
+
+- Preserve P1's five section IDs/labels, seven work IDs/slugs, six numbered answer headings, source IDs, notes, portrait, and attribution distinctions. The canonical Job slug is `voice-out-of-the-whirlwind`; the plan's older `job-38` example is not a second work.
+- Use semantic answer anchors `lens`, `values`, `civilization`, `bikol`, `contemporary`, and `reflection`, prefixed with the work ID. Body IDs derive from anchor, node kind, and content, so inserting a different paragraph does not renumber existing blocks. Repeated identical siblings receive occurrence suffixes. IDs are independent of widths, page counts, and engine indexes.
+- Parse headings, paragraphs, ordered/unordered lists, simple block quotations, emphasis, strong text, inline code, links, local registered images, and reference links/images. Resolve references before storage. Exclude raw HTML and reject unsupported syntax explicitly. Source citations use the same parser with a source-entry role.
+- Notebook fragments and future full-reading/print consume the same ordered AST blocks through `ContentBlocks`. Keep the P2 prototype model isolated until P4.2 adapts fitting; it is not the final public content contract.
+- Validate missing Markdown, duplicate slugs/IDs, local links, source/layout/image references, registered asset existence, and all six nonempty analysis answers. External references are syntax checked, not fetched.
+
+## Evidence
+
+P4.1 is **implemented and verified in this worktree**, awaiting JD's review. P4.2 through P4.4 have not started. Phase 4 is incomplete, unapproved, uncommitted, and unintegrated.
+
+| Check                                                                                           | Result                                                                                                                                                                                                                                                                                                 |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `npm.cmd ci --no-audit --no-fund`                                                               | Passed, 283 locked packages installed. The first sandboxed attempt failed on registry EACCES; the permitted retry succeeded. Manifest and lockfile unchanged.                                                                                                                                          |
+| `npm.cmd run check`                                                                             | Passed theme consistency, zero-warning ESLint, **45 Vitest tests** across four files, strict application/test TypeScript, and Vite production build.                                                                                                                                                   |
+| `npm.cmd run format:check`                                                                      | Passed for the complete worktree.                                                                                                                                                                                                                                                                      |
+| `node --test resource/work/P1/P1.1/verify-content.mjs resource/work/P1/P1.2/verify-sources.mjs` | All **eight** original P1 prose, metadata, sources, and portrait checks pass against the companion document.                                                                                                                                                                                           |
+| Production registry transform/import                                                            | Vite SSR build of `src/lib/content/portfolio.ts` into ignored `.cache/p4.1-bundle`, imported with Node, loads **12 documents, seven works, 42 answers, and 13 sources**. The canonical module also compiles as a standalone client entry. This is a content-loader check, not a deployed-server claim. |
+| `git diff --check`                                                                              | Passed.                                                                                                                                                                                                                                                                                                |
+
+The new `canonicalContent.test.tsx` adds 31 cases. They compare all original visible writing against parsed blocks and serialized Markdown, preserve citation and note text, and compare complete rendering with notebook partitions. The tests exercise semantic answer maps, ID stability after insertions, repeated paragraphs, nested/ordered lists, quotations, inline marks/code, Unicode, hard breaks, reference links/images, first-definition precedence, HTML exclusion, unsupported blocks/URLs, missing or reordered/empty answers, duplicate identities/slugs, missing Markdown/layouts/sources/assets, registered image metadata, and local destination/anchor ownership. Embedded links preserve titles and local fragments use the parent document.
+
+The production loader is exercised through Vite as well as the pure builder against disk files. An initial diagnostic tried to execute the client bundle in Node, which lacks the DOM used by a browser dependency. The SSR transform/import above verifies production registry evaluation in the correct Node environment. No browser coverage is inferred from that diagnostic.
+
+## Handoff and limitations
+
+- Public registry: `src/lib/content/portfolio.ts`. Construction and validation: `buildPortfolio.ts` and `validatePortfolio.ts`. Canonical schema: `types.ts`. Parser/serialization: `parseMarkdown.ts`. Shared ordered renderer: `src/components/content/ContentBlocks.tsx`. Placement metadata: `src/content/layouts.ts`.
+- Source Markdown, P1 metadata, portrait, and P1 evidence are copied unchanged from `e4f79eb`. These prerequisite files will already exist when the coordinator integrates P1, so distinguish them from P4's new files when preparing the final approved commit.
+- The shared renderer proves that complete and partitioned consumers retain the same ordered writing. Actual notebook composition, full-reading routes, printing, reflow/failure recovery, and browser verification of those views remain the explicit P4.3/P4.4 gates. No final website screen or screenshot is claimed at this checkpoint.
+- No new browser run was needed for the data/parser subphase. P2's historical 54 Chromium checks remain its own evidence, not a fresh run of P4. Final combined shell/engine checks are still required.
+- External URLs are syntax checked. Remote availability, original academic submissions, and release access remain later audits. No optional illustration was selected or invented.
+- This worktree is based on committed P2 and locally incorporates P1 inputs. The parallel P3 shell has not been integrated. Its geometry/typography and component contracts must be reconciled before accepting P4.3.
+
+Next: after this checkpoint, P4.2 adapts the accepted P2 measurement/splitting proof to canonical blocks, including lists, quotations, source entries, and controlled font/image readiness. Leave P4.2 acceptance unchecked until that implementation and its tests pass. No commit, merge, push, publication, or worktree deletion has been performed.
