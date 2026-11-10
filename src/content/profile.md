@@ -1,0 +1,5 @@
+Hi! I’m John Daniel P. Labing, also known as JD, a fourth-year BS Computer Science student at the University of Nueva Caceres. I am currently taking Great Books under class section Great Books-GEC-GB-NRs, with class code 1560. During my free time, I enjoy journaling, going to the gym, and reading self-help books. I also like fiction, especially stories about Greek gods and heroes. These interests allow me to relax, explore new ideas, and develop myself both personally and academically.
+
+I enjoyed literature in high school, and Great Books helped me rediscover my interest in reading. At first, I expected a lot of reading, but the class turned out to be enjoyable and engaging. Ms. Raquel made the lessons interesting, and I learned a lot from her and my classmates. Throughout the course, I explored different literary works and gained new perspectives about life, culture, and human experiences. This notebook brings together the activities, reflections, and ideas I gained throughout the course.
+
+**Things I enjoy:** Journaling, the gym, self-help books, fiction, and Greek mythology.

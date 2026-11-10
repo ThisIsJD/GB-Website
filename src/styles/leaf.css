@@ -1,0 +1,296 @@
+.page-leaf {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font: var(--leaf-font, 20px)/var(--leaf-line, 34px) var(--font-handwriting);
+  user-select: text;
+}
+.leaf-inner {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--leaf-top, 28px) var(--leaf-padding, 32px)
+    var(--leaf-bottom, 16px);
+}
+.leaf-header {
+  font-size: calc(var(--leaf-font, 20px) * 1.4);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 16px;
+  overflow-wrap: anywhere;
+  flex: none;
+}
+/* Continuation pages repeat the part as a small corner tag, not a full header. */
+.page-leaf:not(.page-leaf-cover):not([data-layout-key]):not([data-ending])
+  .leaf-header {
+  align-self: flex-end;
+  max-width: 85%;
+  margin: 0 0 12px;
+  padding: 2px 9px;
+  font-size: calc(var(--leaf-font, 20px) * 0.72);
+  line-height: 1.25;
+  color: var(--color-cover);
+  background: var(--color-paper-edge);
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+.page-leaf.--left:not(.page-leaf-cover):not([data-layout-key]):not([data-ending])
+  .leaf-header {
+  align-self: flex-start;
+}
+/* The closing page shows a centered "The End" on open notebook paper. */
+.page-leaf[data-ending] .leaf-inner {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+}
+.page-leaf[data-ending] .leaf-header {
+  font-size: calc(var(--leaf-font, 20px) * 2.1);
+  line-height: 1.1;
+  margin: 0;
+  color: var(--color-cover);
+}
+.page-leaf[data-ending] .leaf-body {
+  flex: none;
+}
+.page-leaf[data-ending] .leaf-body::before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  margin: 0 auto 14px;
+  background: var(--color-rule);
+}
+.page-leaf[data-ending] .leaf-footer {
+  display: block;
+}
+.leaf-body {
+  min-height: 0;
+  flex: 1;
+}
+.leaf-body .reading-content {
+  max-width: none;
+  font: inherit;
+  overflow-wrap: anywhere;
+}
+.leaf-body p {
+  margin: 0 0 16px;
+}
+.leaf-body p:last-child {
+  margin-bottom: 0;
+}
+/* Margin and closing notes read as a yellow sticky note held down by tape. */
+.reading-content p.note-sticky {
+  position: relative;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: min(100%, 320px);
+  margin: 26px auto 22px;
+  padding: 20px 20px 18px;
+  color: var(--color-ink);
+  background-color: color-mix(
+    in srgb,
+    var(--color-annotation-highlight, #e8ce72) 70%,
+    #fffdf2
+  );
+  background-image: linear-gradient(
+    162deg,
+    rgb(255 255 255 / 38%),
+    rgb(255 255 255 / 0) 42%
+  );
+  box-shadow:
+    0 10px 18px rgb(47 41 38 / 20%),
+    inset 0 -16px 22px rgb(47 41 38 / 7%);
+  transform: rotate(-1.4deg);
+}
+.reading-content p.note-sticky strong {
+  color: var(--color-ink);
+}
+.reading-content p.note-sticky .note-tape {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 92px;
+  height: 25px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: linear-gradient(
+    120deg,
+    rgb(226 216 172 / 55%),
+    rgb(238 231 198 / 70%) 45%,
+    rgb(220 209 164 / 58%)
+  );
+  border: 1px solid rgb(206 194 150 / 45%);
+  box-shadow: 0 1px 2px rgb(47 41 38 / 12%);
+}
+.reading-content p.note-sticky:last-child {
+  margin-bottom: 0;
+}
+.leaf-body h2 {
+  margin: 0 0 12px;
+  font-size: calc(var(--leaf-font, 20px) * 1.2);
+  font-weight: 400;
+  line-height: 1.35;
+}
+.leaf-body a {
+  color: var(--color-cover);
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+.leaf-body strong {
+  font-weight: inherit;
+  color: var(--color-cover);
+}
+.leaf-body :is(h1, h3, h4, h5, h6) {
+  margin: 0 0 12px;
+  font-size: calc(var(--leaf-font, 20px) * 1.2);
+  font-weight: 400;
+  line-height: 1.35;
+}
+.leaf-body :is(ul, ol) {
+  margin: 0 0 16px;
+  padding-inline-start: 1.4em;
+  list-style-position: outside;
+}
+.leaf-body ul {
+  list-style-type: disc;
+}
+.leaf-body ol {
+  list-style-type: decimal;
+}
+.leaf-body li > :last-child {
+  margin-bottom: 0;
+}
+.leaf-body li + li {
+  margin-top: 8px;
+}
+.leaf-body blockquote {
+  margin: 0 0 16px;
+  padding-inline-start: 16px;
+  border-inline-start: 2px solid var(--color-rule);
+}
+.leaf-body code {
+  font: inherit;
+  white-space: break-spaces;
+  overflow-wrap: anywhere;
+}
+.leaf-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.leaf-body .reading-content > :last-child {
+  margin-bottom: 0;
+}
+.leaf-footer {
+  position: absolute;
+  inset: auto 16px 12px;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: right;
+}
+.page-leaf.--left .leaf-footer {
+  text-align: left;
+}
+.leaf-opening {
+  flex: none;
+  color: var(--color-cover);
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  font-size: calc(var(--leaf-font, 20px) - 1px);
+  line-height: 1.4;
+}
+.leaf-opening p {
+  margin: 0;
+}
+.leaf-portrait {
+  flex: none;
+  margin-bottom: 16px;
+}
+.page-leaf[data-layout-key] .leaf-header {
+  text-decoration: underline;
+  text-decoration-color: var(--color-cover);
+  text-underline-offset: 5px;
+}
+.page-leaf[data-paper='ruled'] .leaf-body {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--leaf-line) - 0.5px),
+    rgb(203 212 217 / 45%) calc(var(--leaf-line) - 0.5px) var(--leaf-line)
+  );
+  background-position: 0 -4px;
+}
+.page-leaf[data-paper='ruled'] .leaf-body :is(p, ul, ol, blockquote) {
+  margin-block: 0 var(--leaf-line);
+  line-height: var(--leaf-line);
+}
+.page-leaf[data-paper='ruled'] .leaf-body :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-size: inherit;
+  line-height: var(--leaf-line);
+  color: var(--color-cover);
+}
+.page-leaf[data-paper='ruled'] .leaf-body li + li {
+  margin-top: 0;
+}
+.page-leaf[data-paper='ruled'] .leaf-body li > :last-child,
+.page-leaf[data-paper='ruled'] .leaf-body .reading-content > :last-child {
+  margin-bottom: 0;
+}
+.page-leaf-cover {
+  background: var(--color-cover);
+  color: var(--color-paper);
+}
+.page-leaf-cover a,
+.page-leaf-cover strong {
+  color: inherit;
+}
+.page-leaf-cover .leaf-inner {
+  justify-content: center;
+}
+.page-leaf-cover .leaf-body {
+  flex: none;
+}
+.page-leaf-cover {
+  position: relative;
+  overflow: hidden;
+}
+/* The hard covers carry the same woven texture as the landing notebook. */
+.page-leaf-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 2px,
+    currentColor 2px 3px
+  );
+  opacity: var(--material-texture-opacity);
+  pointer-events: none;
+}
+.page-leaf-cover .leaf-inner {
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+.page-leaf-cover .leaf-header {
+  font-size: calc(var(--leaf-font, 20px) * 2);
+  line-height: 1.1;
+  margin: 0;
+}
+.page-leaf-cover .leaf-footer {
+  display: none;
+}
+.page-leaf-cover[data-cover='back-cover'] .leaf-header {
+  letter-spacing: 1px;
+}
+.page-leaf-cover[data-cover='back-cover'] .leaf-body {
+  font-size: calc(var(--leaf-font, 20px) + 1px);
+  opacity: 0.88;
+}
+
+.page-measurement .page-leaf {
+  width: 100%;
+  height: 100%;
+}
