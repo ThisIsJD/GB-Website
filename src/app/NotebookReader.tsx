@@ -34,16 +34,18 @@ export function NotebookReader() {
   const destination = readNotebookRoute(route.pathname, route.search)!;
   const surface = useRef<HTMLElement>(null);
   const adapter = useRef<FlipAdapterHandle>(null);
-  const explicitReading = params.get('view') === 'reading';
   const position = useRef<ReadingLocation>(destination.location);
   const [zoom, setZoom] = useState<ZoomImage | null>(null);
-  const openedFromCover = !!route.state?.openedFromCover;
+  const legacyReadingQuery = params.has('view');
+  const openedFromCover =
+    route.pathname === '/profile' &&
+    !!route.state?.openedFromCover &&
+    !legacyReadingQuery;
   const animateCover = route.state?.animateCover !== false;
   const [coverTransition, setCoverTransition] = useState(
     openedFromCover && animateCover,
   );
-  const direct =
-    route.pathname !== '/notebook' || params.has('at') || explicitReading;
+  const direct = route.pathname !== '/notebook' || params.has('at');
   const entering = useRef(!direct);
   const [opened, setOpened] = useState(direct);
   const width = useElementWidth(surface, 150);
@@ -63,10 +65,19 @@ export function NotebookReader() {
       lineHeight: base.lineHeight * scale,
     };
   }, [geometryKey, inputs.scale]);
+  useEffect(() => {
+    if (!legacyReadingQuery) return;
+    const next = new URLSearchParams(params);
+    next.delete('view');
+    const search = next.toString();
+    void navigate(`${route.pathname}${search ? `?${search}` : ''}`, {
+      replace: true,
+    });
+  }, [legacyReadingQuery, navigate, params, route.pathname, route.state]);
   const layout = usePortfolioLayout(
     geometry,
     inputs.revision,
-    width > 0 && !explicitReading && !error,
+    width > 0 && !error,
     position,
   );
   const composed = layout?.value;
@@ -74,7 +85,7 @@ export function NotebookReader() {
   const revision = `${layout?.id ?? 'loading'}-${reducedMotion}`;
   const failure = useCallback((cause: unknown) => setError(String(cause)), []);
   const failed = error || layout?.error;
-  const reading = explicitReading || !!failed;
+  const reading = !!failed;
   const navigation = useNotebookNavigation({
     adapter,
     pages,

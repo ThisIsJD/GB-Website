@@ -62,10 +62,10 @@ export function readNotebookRoute(pathname: string, search: string) {
     offset < block.text.length
   )
     location.offset = offset;
-  return { location, recovered, reading: params.get('view') === 'reading' };
+  return { location, recovered, reading: false };
 }
 
-export function notebookUrl(location: ReadingLocation, reading: boolean) {
+export function notebookUrl(location: ReadingLocation) {
   const group = groupForLocation(location) ?? notebookGroups[0]!;
   const work = portfolio.works.find(({ id }) => id === group.id);
   const path = work ? `/analyses/${work.slug}` : sectionPaths[group.id]!;
@@ -79,6 +79,5 @@ export function notebookUrl(location: ReadingLocation, reading: boolean) {
   )
     params.set('at', block.id);
   if ((location.offset ?? 0) > 0) params.set('offset', String(location.offset));
-  if (reading) params.set('view', 'reading');
   return `${path}${params.size ? `?${params}` : ''}`;
 }

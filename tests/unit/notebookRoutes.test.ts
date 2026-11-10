@@ -17,7 +17,7 @@ describe('notebook routes', () => {
           offset: Math.min(5, block.text.length - 1),
         };
         const url = new URL(
-          notebookUrl(location, false),
+          notebookUrl(location),
           'https://notebook.test',
         );
         expect(readNotebookRoute(url.pathname, url.search)?.location).toEqual(
@@ -25,13 +25,13 @@ describe('notebook routes', () => {
         );
       }
   });
-  it('opens every work by slug and preserves reading mode', () => {
+  it('opens every work by slug without a separate reading mode', () => {
     for (const work of portfolio.works) {
       expect(readNotebookRoute(`/analyses/${work.slug}`, '')?.location).toEqual(
         locationForTarget(work.id),
       );
-      expect(notebookUrl(locationForTarget(work.id), true)).toBe(
-        `/analyses/${work.slug}?view=reading`,
+      expect(notebookUrl(locationForTarget(work.id))).toBe(
+        `/analyses/${work.slug}`,
       );
     }
   });

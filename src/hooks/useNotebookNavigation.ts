@@ -127,12 +127,12 @@ export function useNotebookNavigation({
 
   const publish = useCallback(
     (location: ReadingLocation) => {
-      const url = notebookUrl(location, reading);
+      const url = notebookUrl(location);
       if (url === route.pathname + route.search) return;
       echo.current = url;
       void navigate(url, { replace: true });
     },
-    [navigate, reading, route.pathname, route.search],
+    [navigate, route.pathname, route.search],
   );
 
   const receive = useCallback(
@@ -269,7 +269,7 @@ export function useNotebookNavigation({
   ]);
 
   const goTo = (target: string) => {
-    void navigate(notebookUrl(locationForTarget(target), reading));
+    void navigate(notebookUrl(locationForTarget(target)));
   };
   const recordReading = useCallback(
     (location: ReadingLocation) => {
