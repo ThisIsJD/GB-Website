@@ -92,8 +92,8 @@ export function usePaperGestures(
         ? index === 0
           ? 1
           : Math.min(count - 1, index + (spread ? 2 : 1))
-        : index === 1
-          ? 0
+        : index <= 1
+          ? index
           : Math.max(0, index - (spread ? 2 : 1));
       if (target === index) return;
       const edge =

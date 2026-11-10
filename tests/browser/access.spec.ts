@@ -76,12 +76,12 @@ test('normal cover slides and opens once, while short touch taps keep reading st
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   await page.getByRole('button', { name: 'Open the notebook cover' }).click();
-  await expect(page.locator('.cover-entry-opening')).toHaveCSS(
+  await expect(page.locator('.cover-route-opening')).toHaveCSS(
     'animation-name',
-    'cover-slide-open',
+    'cover-route-slide-open',
   );
   await ready(page);
-  await expect(page).toHaveURL('/notebook');
+  await expect(page).toHaveURL('/profile');
   await page.locator('iframe').scrollIntoViewIfNeeded();
   const box = (await page.locator('iframe').boundingBox())!;
   const before = await page.locator('.reader-page-count').textContent();
@@ -138,7 +138,7 @@ test('cover is the only opening control and respects motion preference', async (
   await page.getByRole('button', { name: 'Open the notebook cover' }).focus();
   await page.keyboard.press('Enter');
   await ready(page);
-  await expect(page).toHaveURL('/notebook');
+  await expect(page).toHaveURL('/profile');
   await expect(page.locator('.notebook-reader')).toHaveAttribute(
     'data-burst-turns',
     '0',

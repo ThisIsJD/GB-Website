@@ -25,9 +25,9 @@
   grid-template-columns: minmax(0, 1fr);
   align-content: center;
   justify-items: center;
-  gap: var(--size-shell-desktop-outer-padding-px);
-  padding: var(--size-shell-desktop-outer-padding-px)
-    var(--size-shell-mobile-outer-padding-px);
+  gap: var(--size-shell-desktop-outer-padding-px, 24px);
+  padding: var(--size-shell-desktop-outer-padding-px, 24px)
+    var(--size-shell-mobile-outer-padding-px, 16px);
   container: notebook-stage / inline-size;
 }
 .notebook-cover {
@@ -35,29 +35,44 @@
   overflow-wrap: anywhere;
   position: relative;
   isolation: isolate;
-  width: min(100%, var(--size-leaf-preferred-width-px));
-  min-height: var(--size-leaf-preferred-height-px);
+  width: min(100%, var(--size-leaf-preferred-width-px, 440px));
+  min-height: var(--size-leaf-preferred-height-px, 620px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--size-shell-desktop-outer-padding-px);
+  gap: var(--size-shell-desktop-outer-padding-px, 24px);
   padding: 80px 32px;
   color: var(--color-paper);
   background: var(--color-cover);
   border-left: 18px solid var(--color-spine);
-  border-radius: var(--radius-cover-px);
+  border-radius: var(--radius-cover-px, 10px);
   box-shadow:
     4px 3px 0 var(--color-paper-edge),
     8px 6px 0 var(--color-spine),
     var(--shadow-notebook);
+}
+.cover-open-hit {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.cover-open-hit:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: -8px;
 }
 .notebook-cover-transition {
   position: fixed;
   z-index: 30;
   top: 50%;
   left: 50%;
-  width: min(92vw, var(--size-leaf-preferred-width-px));
+  width: min(92vw, var(--size-leaf-preferred-width-px, 440px));
   margin: 0;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -108,7 +123,7 @@
     transparent 0 2px,
     currentColor 2px 3px
   );
-  opacity: var(--material-texture-opacity);
+  opacity: var(--material-texture-opacity, 0.025);
   pointer-events: none;
 }
 .notebook-cover::after {
@@ -119,9 +134,9 @@
   pointer-events: none;
 }
 .notebook-cover h1 {
-  max-width: 9ch;
-  font-size: var(--text-cover-mobile);
-  line-height: var(--typography-roles-cover-line-height);
+  max-width: 15ch;
+  font-size: var(--text-cover-mobile, clamp(36px, 7vw, 48px));
+  line-height: var(--typography-roles-cover-line-height, 1.1);
   text-align: center;
 }
 .owner-label {
@@ -324,10 +339,10 @@
 }
 @media (min-width: 600px) {
   .notebook-stage {
-    padding: var(--size-shell-desktop-outer-padding-px);
+    padding: var(--size-shell-desktop-outer-padding-px, 24px);
   }
   .notebook-cover h1 {
-    font-size: var(--text-cover-desktop);
+    font-size: var(--text-cover-desktop, clamp(36px, 7vw, 48px));
   }
 }
 
