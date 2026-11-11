@@ -16,6 +16,7 @@ interface FlipAdapterProps {
   onState: (state: string) => void;
   onError: (message: string) => void;
   onZoom?: (image: ZoomImage) => void;
+  onSound?: (kind: 'turn' | 'burst') => void;
   ref: Ref<FlipAdapterHandle>;
 }
 
@@ -27,6 +28,7 @@ export function FlipAdapter({
   onState,
   onError,
   onZoom,
+  onSound,
   ref,
 }: FlipAdapterProps) {
   const frame = useRef<HTMLIFrameElement>(null);
@@ -50,6 +52,7 @@ export function FlipAdapter({
     onError,
     onNavigate,
     onZoom,
+    onSound,
   });
   useEffect(() => {
     callbacks.current = {
@@ -59,6 +62,7 @@ export function FlipAdapter({
       onError,
       onNavigate,
       onZoom,
+      onSound,
     };
   });
 
@@ -168,6 +172,10 @@ export function FlipAdapter({
       }
       if (message.type === 'zoom') {
         callbacks.current.onZoom?.(message.image);
+        return;
+      }
+      if (message.type === 'sound') {
+        callbacks.current.onSound?.(message.kind);
         return;
       }
       if (message.type === 'ready') {

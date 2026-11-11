@@ -30,6 +30,9 @@ export function ReaderBook({
   onPosition,
   onState,
   onZoom,
+  onSound,
+  onBookmarkHover,
+  onBookmarkInteract,
   onError,
 }: {
   onNavigate: (href: string) => void;
@@ -50,6 +53,9 @@ export function ReaderBook({
   onPosition: (snapshot: EngineSnapshot) => void;
   onState: (state: string) => void;
   onZoom: (image: ZoomImage) => void;
+  onSound: (kind: 'turn' | 'burst') => void;
+  onBookmarkHover: () => void;
+  onBookmarkInteract: () => void;
   onError: (cause: unknown) => void;
 }) {
   const { geometry } = configuration;
@@ -84,6 +90,7 @@ export function ReaderBook({
                   onPosition={onPosition}
                   onState={onState}
                   onZoom={onZoom}
+                  onSound={onSound}
                   onError={onError}
                 />
               </EngineBoundary>
@@ -109,6 +116,8 @@ export function ReaderBook({
           compact={railWidth === 64}
           hint={bookmarkHint}
           onSelect={onDestination}
+          onHover={onBookmarkHover}
+          onInteract={onBookmarkInteract}
         />
       </div>
       <p className="reader-gesture-hint">

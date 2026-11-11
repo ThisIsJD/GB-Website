@@ -12,8 +12,15 @@ export function EngineBook({
   configuration: EngineConfiguration;
 }) {
   const { pages, geometry, startIndex } = configuration;
-  const { book, register, synchronize, notify, settle, annotateVisibleNotes } =
-    useEngineController(configuration);
+  const {
+    book,
+    register,
+    synchronize,
+    notify,
+    settle,
+    annotateVisibleNotes,
+    flipStarted,
+  } = useEngineController(configuration);
   return (
     <div className="engine-document" style={geometryVariables(geometry)}>
       <HTMLFlipBook
@@ -58,6 +65,7 @@ export function EngineBook({
         onChangeState={(event: { data: string }) => {
           notify({ channel: engineChannel, type: 'state', state: event.data });
           // The engine emits before assigning its new state.
+          if (event.data === 'flipping') flipStarted();
           if (event.data === 'read') queueMicrotask(settle);
         }}
       >

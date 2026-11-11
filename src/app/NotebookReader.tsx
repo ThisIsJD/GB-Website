@@ -10,6 +10,12 @@ import { useReadingInputs } from '../hooks/useReadingInputs';
 import { usePortfolioLayout } from '../hooks/usePortfolioLayout';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import {
+  playPageTurn,
+  playPageBurst,
+  playBookmarkHover,
+  primeNotebookAudio,
+} from '../lib/audio/notebookSounds';
+import {
   compositionGeometry,
   readerRailWidth,
 } from '../lib/pagination/composePortfolio';
@@ -144,6 +150,15 @@ export function NotebookReader() {
     const timer = window.setTimeout(() => setCoverTransition(false), 480);
     return () => window.clearTimeout(timer);
   }, [coverTransition, ready]);
+  useEffect(() => {
+    const prime = () => primeNotebookAudio();
+    window.addEventListener('pointerdown', prime, { once: true });
+    window.addEventListener('keydown', prime, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', prime);
+      window.removeEventListener('keydown', prime);
+    };
+  }, []);
   return (
     <main
       ref={surface}
@@ -189,6 +204,11 @@ export function NotebookReader() {
           turnHint={ready && !turnHintDone}
           bookmarkHint={destinationsReady && !bookmarkHintDone}
           onDestination={goToDestination}
+          onBookmarkHover={playBookmarkHover}
+          onBookmarkInteract={() => setBookmarkHintDone(true)}
+          onSound={(kind) =>
+            kind === 'burst' ? playPageBurst() : playPageTurn()
+          }
           onPrevious={() => {
             setTurnHintDone(true);
             void navigation.turn(

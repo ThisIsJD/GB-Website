@@ -8,12 +8,16 @@ export function ReaderBookmarks({
   compact,
   hint,
   onSelect,
+  onHover,
+  onInteract,
 }: {
   selected: string;
   disabled: boolean;
   compact: boolean;
   hint?: boolean;
   onSelect: (id: string) => void;
+  onHover?: () => void;
+  onInteract?: () => void;
 }) {
   const [worksOpen, setWorksOpen] = useState(false);
   return (
@@ -51,11 +55,13 @@ export function ReaderBookmarks({
             aria-controls={
               id === 'literary-analyses' ? 'analysis-work-flyout' : undefined
             }
-            onClick={() =>
-              id === 'literary-analyses'
-                ? setWorksOpen((open) => !open)
-                : onSelect(id)
-            }
+            onPointerEnter={() => onHover?.()}
+            onFocus={() => onHover?.()}
+            onClick={() => {
+              onInteract?.();
+              if (id === 'literary-analyses') setWorksOpen((open) => !open);
+              else onSelect(id);
+            }}
           >
             <span className="reader-bookmark-full" aria-hidden="true">
               {label}
@@ -92,7 +98,9 @@ export function ReaderBookmarks({
               <button
                 disabled={disabled}
                 aria-current={selected === 'literary-analyses' ? 'true' : undefined}
+                onPointerEnter={() => onHover?.()}
                 onClick={() => {
+                  onInteract?.();
                   setWorksOpen(false);
                   onSelect('literary-analyses');
                 }}
@@ -104,7 +112,9 @@ export function ReaderBookmarks({
                   key={work.id}
                   disabled={disabled}
                   aria-current={selected === work.id ? 'true' : undefined}
+                  onPointerEnter={() => onHover?.()}
                   onClick={() => {
+                    onInteract?.();
                     setWorksOpen(false);
                     onSelect(work.id);
                   }}

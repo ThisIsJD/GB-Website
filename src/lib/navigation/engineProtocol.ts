@@ -103,6 +103,7 @@ export type EngineResponse =
       snapshot: EngineSnapshot;
     }
   | { channel: typeof engineChannel; type: 'state'; state: string }
+  | { channel: typeof engineChannel; type: 'sound'; kind: 'turn' | 'burst' }
   | { channel: typeof engineChannel; type: 'error'; message: string };
 
 export interface FlipAdapterHandle {

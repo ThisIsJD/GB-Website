@@ -63,6 +63,24 @@ function keyTerms(root: HTMLElement, limit: number): HTMLElement[] {
 function characterMatches(
   root: HTMLElement,
 ): { element: HTMLElement; type: 'highlight' | 'underline' | 'circle' }[] {
+  const matches: {
+    element: HTMLElement;
+    type: 'highlight' | 'underline' | 'circle';
+  }[] = [];
+  // Spans wrapped on a previous pass stay in the DOM; collect them so their
+  // marks are recreated and re-animated on every redraw, like the rest.
+  root
+    .querySelectorAll<HTMLElement>('.character-highlight')
+    .forEach((span) => {
+      const stored = span.dataset.mark;
+      matches.push({
+        element: span,
+        type:
+          stored === 'underline' || stored === 'circle'
+            ? stored
+            : 'highlight',
+      });
+    });
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
     acceptNode: (node) => {
       const parent = (node.parentElement as HTMLElement | null) ?? null;
@@ -97,10 +115,6 @@ function characterMatches(
       continue;
     nodes.push(node as Text);
   }
-  const matches: {
-    element: HTMLElement;
-    type: 'highlight' | 'underline' | 'circle';
-  }[] = [];
   nodes.forEach((textNode) => {
     const text = textNode.nodeValue ?? '';
     const context = textNode.parentElement?.closest<HTMLElement>(
@@ -130,20 +144,19 @@ function characterMatches(
     let cursor = 0;
     text.replace(pattern, (match, _group, offset: number) => {
       fragment.append(text.slice(cursor, offset));
+      const type = workId
+        ? 'highlight'
+        : profileAnnotationTerms[
+              match.replace('-', ' ').toLowerCase() === 'fourth year'
+                ? 'Fourth Year'
+                : match
+            ] ?? 'highlight';
       const span = document.createElement('span');
       span.className = 'character-highlight';
+      span.dataset.mark = type;
       span.textContent = match;
       fragment.append(span);
-      matches.push({
-        element: span,
-        type: workId
-          ? 'highlight'
-          : profileAnnotationTerms[
-                match.replace('-', ' ').toLowerCase() === 'fourth year'
-                  ? 'Fourth Year'
-                  : match
-              ] ?? 'highlight',
-      });
+      matches.push({ element: span, type });
       cursor = offset + match.length;
       return match;
     });
@@ -199,6 +212,12 @@ export function decorateLeaf(leaf: HTMLElement, animate: boolean): void {
   if (annotated.has(leaf)) return;
   annotated.add(leaf);
   marksByRoot.set(leaf, draw(leaf, animate, 6));
+}
+
+/** Redraw a visible leaf so its annotations replay after every settled turn. */
+export function redrawLeaf(leaf: HTMLElement, animate: boolean): void {
+  undecorateLeaf(leaf);
+  decorateLeaf(leaf, animate);
 }
 
 /** Clear a leaf's marks as it leaves view so it re-animates when turned back to. */

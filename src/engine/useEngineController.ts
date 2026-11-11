@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { usePaperGestures } from './usePaperGestures';
-import { decorateLeaf, undecorateLeaf } from '../lib/annotations/noteMarks';
+import {
+  redrawLeaf,
+  undecorateLeaf,
+} from '../lib/annotations/noteMarks';
 import {
   engineChannel,
   visibleIndexes,
@@ -16,6 +19,7 @@ export function useEngineController(configuration: EngineConfiguration) {
   const book = useRef<BookHandle>(null);
   const elements = useRef(new Map<string, HTMLDivElement>());
   const inputLocked = useRef(false);
+  const burstActive = useRef(false);
   const pending = useRef<EngineCommand | null>(null);
   const waiting = useRef<EngineCommand | null>(null);
   const dispatch = useRef<((command: EngineCommand) => void) | null>(null);
@@ -72,9 +76,16 @@ export function useEngineController(configuration: EngineConfiguration) {
   const annotateVisibleNotes = useCallback(() => {
     document.querySelectorAll<HTMLElement>('.page-leaf').forEach((leaf) => {
       if (leaf.inert) undecorateLeaf(leaf);
-      else decorateLeaf(leaf, !configuration.reducedMotion);
+      else redrawLeaf(leaf, !configuration.reducedMotion);
     });
   }, [configuration.reducedMotion]);
+
+  // A flip animation began: single turns ring once; burst steps stay silent
+  // because the section jump already played its riffle on lock.
+  const flipStarted = useCallback(() => {
+    if (!burstActive.current)
+      notify({ channel: engineChannel, type: 'sound', kind: 'turn' });
+  }, [notify]);
 
   const settle = useCallback(() => {
     const position = synchronize();
@@ -171,6 +182,13 @@ export function useEngineController(configuration: EngineConfiguration) {
       }
       if (command.type === 'interaction') {
         inputLocked.current = command.locked;
+        // A locked state marks the start of a multi-page section jump.
+        if (command.locked) {
+          burstActive.current = true;
+          notify({ channel: engineChannel, type: 'sound', kind: 'burst' });
+        } else {
+          burstActive.current = false;
+        }
         return;
       }
       if (command.type !== 'turn') return;
@@ -197,7 +215,7 @@ export function useEngineController(configuration: EngineConfiguration) {
       dispatch.current = null;
       waiting.current = null;
     };
-  }, [pages.length, settle, snapshot, synchronize]);
+  }, [pages.length, settle, snapshot, synchronize, notify]);
 
   const isLocked = useCallback(
     () =>
@@ -278,5 +296,13 @@ export function useEngineController(configuration: EngineConfiguration) {
     else elements.current.delete(id);
   }, []);
 
-  return { book, register, synchronize, notify, settle, annotateVisibleNotes };
+  return {
+    book,
+    register,
+    synchronize,
+    notify,
+    settle,
+    annotateVisibleNotes,
+    flipStarted,
+  };
 }

@@ -266,6 +266,15 @@
     transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 160ms ease;
 }
+.reader-bookmark[aria-current='page'] {
+  transform: translateX(14px);
+  z-index: 3;
+  font-weight: 600;
+  border-color: color-mix(in srgb, var(--tab-accent) 85%, #2f2926);
+  box-shadow:
+    2px 4px 0 color-mix(in srgb, var(--tab-accent) 40%, transparent),
+    inset 4px 0 0 var(--tab-accent);
+}
 .reader-bookmark[aria-current='page'] span {
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -275,6 +284,9 @@
   .reader-bookmark:not(:disabled):hover {
     transform: translateX(16px) rotate(-1.5deg);
     box-shadow: 1px 4px 0 color-mix(in srgb, var(--tab-accent) 25%, transparent);
+  }
+  .reader-bookmark[aria-current='page']:not(:disabled):hover {
+    transform: translateX(22px) rotate(-1.5deg);
   }
 }
 .reader-bookmark:not(:disabled):focus-visible {
@@ -307,6 +319,12 @@
 .reader-bookmarks[data-compact='true']
   .reader-bookmark:is(:hover, :focus-visible, :active) {
   transform: none;
+}
+.reader-bookmarks[data-compact='true'] .reader-bookmark[aria-current='page'] {
+  transform: translateX(6px);
+  box-shadow:
+    1px 3px 0 color-mix(in srgb, var(--tab-accent) 40%, transparent),
+    inset 5px 0 0 var(--tab-accent);
 }
 .reader-page-controls {
   position: absolute;
